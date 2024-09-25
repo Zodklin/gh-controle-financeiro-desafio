@@ -1,0 +1,15 @@
+{
+    "name": "guilherme.costa/controle-despesas",
+    "autoload": {
+        "psr-4": {
+            "GuilhermeCosta\\ControleDespesas\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Zodklin",
+            "email": "guilherme.scosta2001@gmail.com"
+        }
+    ],
+    "require": {}
+}
