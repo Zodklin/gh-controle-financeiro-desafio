@@ -14,7 +14,7 @@ class Expense
         $statement = $pdo->query($select);
         //passo um array associativo para transictions do resultado da query
         $transictions = $statement->fetchAll(\PDO::FETCH_ASSOC);
-        var_dump($transictions);
+
     }
     
     
@@ -62,5 +62,44 @@ class Expense
         $statement->execute();
     }
 
+    public function getReceita(){
+        $pdo = new \PDO('mysql:host=localhost;dbname=controle_despesas', 'root', '@Zodklin2701');
+        $getReceita = "SELECT SUM(VALOR) FROM TRANSACOES WHERE TIPO = 'receita'";
+        $statement = $pdo->query($getReceita);
+        $receita = $statement->fetchColumn();
+        return $receita;
+    }
+
+    public function getSaldo(){
+        $pdo = new \PDO('mysql:host=localhost;dbname=controle_despesas', 'root', '@Zodklin2701');
+        $getSaldo = "SELECT DISTINCT
+    (SELECT SUM(valor) FROM transacoes WHERE tipo = 'receita') - 
+    (SELECT SUM(valor) FROM transacoes WHERE tipo = 'despesa') AS saldo_final
+from
+	transacoes";
+    $statement = $pdo->query($getSaldo);
+    $saldo = $statement->fetchColumn();
+    return $saldo;
+    }
+
+    public function getDespesa(){
+        $pdo = new \PDO('mysql:host=localhost;dbname=controle_despesas', 'root', '@Zodklin2701');
+        $getDespesa = "SELECT
+                            sum(valor)
+                        FROM
+                            transacoes
+                        WHERE
+                            tipo = 'despesa'";
+        $statement = $pdo->query($getDespesa);
+        $despesa = $statement->fetchColumn();
+        return $despesa;
+    }
+
+    public function getTransactions(){
+        $saldo = $this->getSaldo();
+        $receita = $this->getReceita();
+        $despesa = $this->getDespesa();
+        require '../View/home.php'; 
+    }
 
 }
