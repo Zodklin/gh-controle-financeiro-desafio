@@ -13,27 +13,45 @@
             <h2><i><img src="./assets/img/icon.png" alt="icon" id="icone"></i></h2>
             <div class="icons">
                 <a href="./create"><i id="add" class="fa-solid fa-circle-plus fa-xl"></i></a>
-                <a href="./home"><i id="icon" class="fa-solid fa-house fa-xl" style="color: #007bff;"></i></a>
-                <a href="/filter"><i id="icon" class="fa-solid fa-file-contract fa-xl"></i></a>
+                <a href="./home"><i id="icon" class="fa-solid fa-house fa-xl"></i></a>
+                <a href="/filter"><i id="icon" class="fa-solid fa-file-contract fa-xl" style="color: #007bff;"></i></a>
             </div>
         </aside>
         <main class="content">
             <div class="content-backgroud">
                 <h1 class="dash-title">Dashboard</h1>
+                <form action="/filter" method="POST" class="filter-form">
+                <div class="filter-item">
+                    <label for="filter-month" class="filter-label">Selecione o mês:</label>
+                    <input type="month" id="filter-month" name="mes" class="filter-month-input" required>
+                </div>
+                <div class="filter-item">
+                    <label for="filter-category" class="filter-label">Selecione a categoria:</label>
+                    <select id="filter-category" name="categoria" class="filter-category-select" required>
+                        <option value="" disabled selected>Escolha uma categoria</option>
+                        <option value="1">Alimentação</option>
+                        <option value="2">Transporte</option>
+                        <option value="3">Moradia</option>
+                        <option value="4">Lazer</option>
+                        <option value="4">Outros</option>
+                    </select>
+                </div>
+                <button class="filter-button">Filtrar</button>
+            </form>
                 <div class="content-cards">
                     <div class="card-saldo">
                         <div class="card-info">
-                            <h3 class="card-h3-title">Saldo atual: </h2>
-                            <h1 class="card-h1-value">R$ <?=$saldo?></h1>
+                            <h3 class="card-h3-title">Difenreça: </h2>
+                            <h1 class="card-h1-value">R$ <?= $diferenca ?></h1>
                         </div>
                         <div class="card-icon">
-                            <i class="fa-solid fa-circle-minus" style="color: #28a745;"></i>
+                            <i class="fa-solid fa-circle-minus" style="color: orange;"></i>
                         </div>
                         </div>
                     <div class="card-receita">
                         <div>
                             <h3 class="card-h3-title">Receita: </h2>
-                            <h1 class="card-h1-value">R$ <?=$receita?></h1>
+                            <h1 class="card-h1-value">R$ <?= $filterReceita ?></h1>
                         </div>
                         <div class="card-icon">
                             <i class="fa-solid fa-circle-arrow-up" style="color: #007bff;"></i>
@@ -42,7 +60,7 @@
                     <div class="card-despesa">
                         <div>
                             <h3 class="card-h3-title">Despesas:</h2>
-                            <h1 class="card-h1-value">R$ <?= $despesa ?></h1>
+                            <h1 class="card-h1-value">R$ <?= $filterDespesa ?></h1>
                         </div>             
                         <div class="card-icon">
                         <i class="fa-solid fa-circle-arrow-down" style="color: #dc3545; "></i>
@@ -68,31 +86,35 @@
                         <h3>Categoria</h3> 
                     </div>
                 </div>
-                <?php foreach($transacoes as $transiction): ?>
-                <?php if($transiction['tipo'] == 'despesa'){?>
-                    <div class="list" style="background-color: #8b0000 ;">
-                <?php } elseif($transiction['tipo'] == 'receita'){ ?>
-                    <div class="list" style="background-color: #4a6fa5 ;">
+                <?php foreach($filtrados as $filtrado): ?>
+                <?php if($filtrado['tipo'] == 'despesa'){?>
+                    <div class="list" style="background-color: #ffe6e6;">
+                <?php } elseif($filtrado['tipo'] == 'receita'){ ?>
+                    <div class="list" style="background-color: #daecff;">
                 <?php } ?>
                     <div class="transictions">
                         <div class="tipo">
-                            <span style="text-shadow: 0px 0px 5px #000000;"><?= $transiction['tipo'] ?></span>
+                        <?php if ($filtrado['tipo'] == 'despesa') { ?>
+                            <span style="color: red;"><?= $filtrado['tipo'] ?></span>
+                        <?php } elseif ($filtrado['tipo'] == 'receita') { ?>
+                            <span style="color: blue;"><?= $filtrado['tipo'] ?></span>
+                        <?php } ?>
                         </div>
                         <div class="descricao">
-                            <span style="text-shadow: 0px 0px 5px #000000;"><?=$transiction['descricao']?></span> 
+                            <span><?=$filtrado['descricao']?></span> 
                         </div>
                         <div class="valor">
-                            <span style="text-shadow: 0px 0px 5px #000000;">R$ <?=$transiction['valor']?></span> 
+                            <span>R$ <?=$filtrado['valor']?></span> 
                         </div>
                         <div class="data">
-                            <span style="text-shadow: 0px 0px 5px #000000;"><?=$transiction['data_transacao']?></span>
+                            <span><?=$filtrado['data_transacao']?></span>
                         </div>
                         <div class="categoria">
-                            <span style="text-shadow: 0px 0px 5px #000000;"><?=$transiction['categoria_id']?></span> 
+                            <span><?=$filtrado['categoria_id']?></span> 
                         </div>
                         <div class="deleteUpdate">
-                            <a href="/deletar?id=<?= $transiction['id_transacao']?>"><i class="fa-solid fa-trash" style="color: white; text-shadow: 0px 0px 5px #000000;"></i></a>
-                            <a href="/editar?id=<?= $transiction['id_transacao']?>"><i class="fa-solid fa-pen-to-square"  style="color: white; text-shadow: 0px 0px 5px #000000;"></i></a>
+                            <a href="/deletar?id=<?= $filtrado['id_transacao']?>"><i class="fa-solid fa-trash" style="color: #007bff;"></i></a>
+                            <a href="/editar?id=<?= $filtrado['id_transacao']?>"><i class="fa-solid fa-pen-to-square"  style="color: #007bff;"></i></a>
                         </div>
                     </div>
                 </div>
