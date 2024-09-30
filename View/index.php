@@ -12,32 +12,40 @@ $page = rtrim($uri, '/') ?: '/';
 
 switch ($page)
     {
-        case "/home":
-            $rotas->getTransactions();
+        case "/dashboard":
+            $rotas->getTransacoes();
             break;
 
         case "/deletar":
-            $rotas->delete();
+            $rotas->deletar();
             break;
 
-        case "/create":
-            $rotas->create();
+        case "/criar":
+            $rotas->criar();
             break;
 
-        case "/save":
-            $rotas->save();
+        case "/salvar":
+            $rotas->salvar();
             break;
 
         case "/editar":
-            $rotas->edit();
+            $rotas->editar();
             break;
 
-        case "/update":
-            $rotas->update();
+        case "/atualizar":
+            $rotas->atualizar();
             break;
 
-        case "/filter":
-            $rotas->filter();
+        case "/filtrar":
+            $rotas->filtrar();
+            break;
+
+        case "/categorias";
+            $rotas->categorias();
+            break;
+
+        case "/deletarCat";
+            $rotas->deletarCategoria();
             break;
 
         default:

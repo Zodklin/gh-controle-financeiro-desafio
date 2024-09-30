@@ -12,19 +12,19 @@
         <aside class="sidebar">
             <h2><i><img src="./assets/img/icon.png" alt="icon" id="icone"></i></h2>
             <div class="icons">
-                <a href="./create"><i id="add" class="fa-solid fa-circle-plus fa-xl"></i></a>
-                <a href="./home"><i id="icon" class="fa-solid fa-house fa-xl" style="color: #007bff;"></i></a>
-                <a href="/filter"><i id="icon" class="fa-solid fa-file-contract fa-xl"></i></a>
+                <a href="./criar"><i id="add" class="fa-solid fa-circle-plus fa-xl"></i></a>
+                <a href="./dashboard"><i id="icon" class="fa-solid fa-house fa-xl" style="color: #007bff;"></i></a>
+                <a href="/filtrar"><i id="icon" class="fa-solid fa-file-contract fa-xl"></i></a>
             </div>
         </aside>
         <main class="content">
             <div class="content-backgroud">
-                <h1 class="dash-title">Dashboard</h1>
+                <h1 class="titulo-dashboard">Dashboard</h1>
                 <div class="content-cards">
                     <div class="card-saldo">
                         <div class="card-info">
-                            <h3 class="card-h3-title">Saldo atual: </h2>
-                            <h1 class="card-h1-value">R$ <?=$saldo?></h1>
+                            <h3 class="card-h3-titulo">Saldo atual: </h2>
+                            <h1 class="card-h1-valor">R$ <?=$saldo?></h1>
                         </div>
                         <div class="card-icon">
                             <i class="fa-solid fa-circle-minus" style="color: #28a745;"></i>
@@ -32,8 +32,8 @@
                         </div>
                     <div class="card-receita">
                         <div>
-                            <h3 class="card-h3-title">Receita: </h2>
-                            <h1 class="card-h1-value">R$ <?=$receita?></h1>
+                            <h3 class="card-h3-titulo">Receita: </h2>
+                            <h1 class="card-h1-valor">R$ <?=$receita?></h1>
                         </div>
                         <div class="card-icon">
                             <i class="fa-solid fa-circle-arrow-up" style="color: #007bff;"></i>
@@ -41,8 +41,8 @@
                         </div>
                     <div class="card-despesa">
                         <div>
-                            <h3 class="card-h3-title">Despesas:</h2>
-                            <h1 class="card-h1-value">R$ <?= $despesa ?></h1>
+                            <h3 class="card-h3-titulo">Despesas:</h2>
+                            <h1 class="card-h1-valor">R$ <?= $despesa ?></h1>
                         </div>             
                         <div class="card-icon">
                         <i class="fa-solid fa-circle-arrow-down" style="color: #dc3545; "></i>
@@ -50,8 +50,8 @@
                         </div>
                 </div>
             </div>
-            <div class="list-container">
-                <div class="transictions-tittles">
+            <div class="container-listas">
+                <div class="transacoes-titulos">
                     <div class="tipo">
                         <h3>Tipo</h3> 
                     </div>
@@ -65,13 +65,13 @@
                         <h3>Data</h3> 
                     </div>
                     <div class="categoria">
-                        <h3>Categoria</h3> 
+                        <h3>Categoria <a href="/categorias"><i class="fa-solid fa-gears"></i></a></h3> 
                     </div>
                 </div>
                 <?php foreach($transacoes as $transiction): ?>
-                <?php if($transiction['tipo'] == 'despesa'){?>
+                <?php if($transiction['tipo'] == 'Despesa'){?>
                     <div class="list" style="background-color: #8b0000 ;">
-                <?php } elseif($transiction['tipo'] == 'receita'){ ?>
+                <?php } elseif($transiction['tipo'] == 'Receita'){ ?>
                     <div class="list" style="background-color: #4a6fa5 ;">
                 <?php } ?>
                     <div class="transictions">
@@ -98,7 +98,6 @@
                 </div>
                 <?php endforeach ?>
             </div>
-
         </main>
     </div>
 </body>

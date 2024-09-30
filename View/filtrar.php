@@ -12,37 +12,42 @@
         <aside class="sidebar">
             <h2><i><img src="./assets/img/icon.png" alt="icon" id="icone"></i></h2>
             <div class="icons">
-                <a href="./create"><i id="add" class="fa-solid fa-circle-plus fa-xl"></i></a>
-                <a href="./home"><i id="icon" class="fa-solid fa-house fa-xl"></i></a>
-                <a href="/filter"><i id="icon" class="fa-solid fa-file-contract fa-xl" style="color: #007bff;"></i></a>
+                <a href="./criar"><i id="add" class="fa-solid fa-circle-plus fa-xl"></i></a>
+                <a href="./dashboard"><i id="icon" class="fa-solid fa-house fa-xl"></i></a>
+                <a href="/filtrar"><i id="icon" class="fa-solid fa-file-contract fa-xl" style="color: #007bff;"></i></a>
             </div>
         </aside>
         <main class="content">
             <div class="content-backgroud">
                 <h1 class="dash-title">Dashboard</h1>
                 <form action="/filter" method="POST" class="filter-form">
-                <div class="filter-item">
-                    <label for="filter-month" class="filter-label">Selecione o mês:</label>
-                    <input type="month" id="filter-month" name="mes" class="filter-month-input" required>
-                </div>
-                <div class="filter-item">
-                    <label for="filter-category" class="filter-label">Selecione a categoria:</label>
-                    <select id="filter-category" name="categoria" class="filter-category-select" required>
-                        <option value="" disabled selected>Escolha uma categoria</option>
-                        <option value="1">Alimentação</option>
-                        <option value="2">Transporte</option>
-                        <option value="3">Moradia</option>
-                        <option value="4">Lazer</option>
-                        <option value="4">Outros</option>
-                    </select>
-                </div>
-                <button class="filter-button">Filtrar</button>
-            </form>
+                    <div class="filter-item">
+                        <label for="filter-date" class="filter-label">Inicio: </label>
+                        <input type="date" id="filter-date-start" name="data-inicio" class="filter-date-input" required>
+                    </div>
+                    <div class="filter-item">
+                        <label for="filter-date" class="filter-label">Fim:</label>
+                        <input type="date" id="filter-date-end" name="data-fim" class="filter-date-input" required>
+                    </div>
+                    <div class="filter-item">
+                        <label for="filter-category" class="filter-label">Selecione a categoria:</label>
+                        <select id="filter-category" name="categoria" class="filter-category-select" required>
+                            <option value="" disabled selected>Escolha uma categoria</option>
+                            <option value="1">Lazer</option>
+                            <option value="2">Alimentação</option>
+                            <option value="3">Contas Fixas</option>
+                            <option value="4">Cartão de crédito</option>
+                            <option value="5">Outros</option>
+                            <option value="6">Receita</option>
+                        </select>
+                    </div>
+                    <button class="filter-button">Filtrar</button>
+                </form>
                 <div class="content-cards">
                     <div class="card-saldo">
                         <div class="card-info">
-                            <h3 class="card-h3-title">Difenreça: </h2>
-                            <h1 class="card-h1-value">R$ <?= $diferenca ?></h1>
+                            <h3 class="card-h3-titulo">Difenreça: </h2>
+                            <h1 class="card-h1-valor">R$ <?= $diferenca ?></h1>
                         </div>
                         <div class="card-icon">
                             <i class="fa-solid fa-circle-minus" style="color: orange;"></i>
@@ -50,8 +55,8 @@
                         </div>
                     <div class="card-receita">
                         <div>
-                            <h3 class="card-h3-title">Receita: </h2>
-                            <h1 class="card-h1-value">R$ <?= $filterReceita ?></h1>
+                            <h3 class="card-h3-titulo">Receita do período: </h2>
+                            <h1 class="card-h1-valor">R$ <?= $filterReceita ?></h1>
                         </div>
                         <div class="card-icon">
                             <i class="fa-solid fa-circle-arrow-up" style="color: #007bff;"></i>
@@ -59,8 +64,8 @@
                         </div>
                     <div class="card-despesa">
                         <div>
-                            <h3 class="card-h3-title">Despesas:</h2>
-                            <h1 class="card-h1-value">R$ <?= $filterDespesa ?></h1>
+                            <h3 class="card-h3-titulo">Despesas:</h2>
+                            <h1 class="card-h1-valor">R$ <?= $filterDespesa ?></h1>
                         </div>             
                         <div class="card-icon">
                         <i class="fa-solid fa-circle-arrow-down" style="color: #dc3545; "></i>
@@ -69,7 +74,7 @@
                 </div>
             </div>
             <div class="list-container">
-                <div class="transictions-tittles">
+                <div class="transacoes-titulos">
                     <div class="tipo">
                         <h3>Tipo</h3> 
                     </div>
@@ -87,34 +92,30 @@
                     </div>
                 </div>
                 <?php foreach($filtrados as $filtrado): ?>
-                <?php if($filtrado['tipo'] == 'despesa'){?>
-                    <div class="list" style="background-color: #ffe6e6;">
-                <?php } elseif($filtrado['tipo'] == 'receita'){ ?>
-                    <div class="list" style="background-color: #daecff;">
+                <?php if($filtrado['tipo'] == 'Despesa'){?>
+                    <div class="list" style="background-color: #8b0000 ;">
+                <?php } elseif($filtrado['tipo'] == 'Receita'){ ?>
+                    <div class="list" style="background-color: #4a6fa5 ;">
                 <?php } ?>
                     <div class="transictions">
                         <div class="tipo">
-                        <?php if ($filtrado['tipo'] == 'despesa') { ?>
-                            <span style="color: red;"><?= $filtrado['tipo'] ?></span>
-                        <?php } elseif ($filtrado['tipo'] == 'receita') { ?>
-                            <span style="color: blue;"><?= $filtrado['tipo'] ?></span>
-                        <?php } ?>
+                            <span style="text-shadow: 0px 0px 5px #000000;"><?= $filtrado['tipo'] ?></span>
                         </div>
                         <div class="descricao">
-                            <span><?=$filtrado['descricao']?></span> 
+                            <span style="text-shadow: 0px 0px 5px #000000;"><?=$filtrado['descricao']?></span> 
                         </div>
                         <div class="valor">
-                            <span>R$ <?=$filtrado['valor']?></span> 
+                            <span style="text-shadow: 0px 0px 5px #000000;">R$ <?=$filtrado['valor']?></span> 
                         </div>
                         <div class="data">
-                            <span><?=$filtrado['data_transacao']?></span>
+                            <span style="text-shadow: 0px 0px 5px #000000;"><?=$filtrado['data_transacao']?></span>
                         </div>
                         <div class="categoria">
-                            <span><?=$filtrado['categoria_id']?></span> 
+                            <span style="text-shadow: 0px 0px 5px #000000;"><?=$filtrado['categoria_id']?></span> 
                         </div>
                         <div class="deleteUpdate">
-                            <a href="/deletar?id=<?= $filtrado['id_transacao']?>"><i class="fa-solid fa-trash" style="color: #007bff;"></i></a>
-                            <a href="/editar?id=<?= $filtrado['id_transacao']?>"><i class="fa-solid fa-pen-to-square"  style="color: #007bff;"></i></a>
+                            <a href="/deletar?id=<?= $filtrado['id_transacao']?>"><i class="fa-solid fa-trash" style="color: white; text-shadow: 0px 0px 5px #000000;"></i></a>
+                            <a href="/editar?id=<?= $filtrado['id_transacao']?>"><i class="fa-solid fa-pen-to-square"  style="color: white; text-shadow: 0px 0px 5px #000000;"></i></a>
                         </div>
                     </div>
                 </div>
