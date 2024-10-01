@@ -186,7 +186,7 @@ li{
 }
 
 .list:hover{
-    transform: scale(1.001);
+    transform: scale(1.0001);
 }
 
 .transacoes-titulos{

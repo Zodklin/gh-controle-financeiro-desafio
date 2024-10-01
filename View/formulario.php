@@ -19,7 +19,7 @@
         </aside>
         <main class="content-formulario">
             <div class="container-formulario">
-                <form action="<?php echo isset($transacaoSelecionada) ? "/update?id=" . $transacaoSelecionada['id_transacao'] : "/save"?>" method="POST" class="formulario-add">
+                <form action="<?php echo isset($transacaoSelecionada) ? "/atualizar?id=" . $transacaoSelecionada['id_transacao'] : "/salvar"?>" method="POST" class="formulario-add">
                 <h1><?php echo isset($transacaoSelecionada) ? "Editar" : "Adicionar" ?></h1>
                     <label for="valor" >Valor:</label>
                         <input type="number" class="valor-add" name="valor" step="0.01" value="<?php echo isset($transacaoSelecionada) ? $transacaoSelecionada['valor'] : ""; ?>" required>
@@ -43,12 +43,20 @@
                     <label for="categoria">Categoria:</label>
                         <select id="categoria" name="categoria" required>
                             <option value="">Selecione a categoria</option>
-                            <option value="1" <?php echo isset($transacaoSelecionada) && $transacaoSelecionada["categoria_id"] == 1 ? 'selected' : ""; ?>>Lazer</option>
-                            <option value="2" <?php echo isset($transacaoSelecionada) && $transacaoSelecionada["categoria_id"] == 2 ? 'selected' : ""; ?>>Alimentação</option>
+
+
+                            <?php foreach($categorias as $categoria): var_dump($categoria)?>
+                                <option value="<?=$categoria['id_categoria']?>" <?php echo isset($transacaoSelecionada) && $transacaoSelecionada["categoria_id"] == $categoria['id_categoria'] ? 'selected' : ""; ?>><?= $categoria['nome_categoria']?></option>
+                            <?php endforeach?>
+
+
+
+
+                            <!-- <option value="2" <?php echo isset($transacaoSelecionada) && $transacaoSelecionada["categoria_id"] == 2 ? 'selected' : ""; ?>>Alimentação</option>
                             <option value="3" <?php echo isset($transacaoSelecionada) && $transacaoSelecionada["categoria_id"] == 3 ? 'selected' : ""; ?>>Contas Fixas</option>
                             <option value="4" <?php echo isset($transacaoSelecionada) && $transacaoSelecionada["categoria_id"] == 4 ? 'selected' : ""; ?>>Cartão de crédito</option>
                             <option value="5" <?php echo isset($transacaoSelecionada) && $transacaoSelecionada["categoria_id"] == 5 ? 'selected' : ""; ?>>Outros</option>
-                            <option value="6" <?php echo isset($transacaoSelecionada) && $transacaoSelecionada["categoria_id"] == 6 ? 'selected' : ""; ?>>Receita</option>
+                            <option value="6" <?php echo isset($transacaoSelecionada) && $transacaoSelecionada["categoria_id"] == 6 ? 'selected' : ""; ?>>Receita</option> -->
                         </select>
                     <button class="botao-add" type="">Salvar</button>
                     </form>

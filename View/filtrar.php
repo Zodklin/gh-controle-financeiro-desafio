@@ -20,7 +20,7 @@
         <main class="content">
             <div class="content-backgroud">
                 <h1 class="dash-title">Dashboard</h1>
-                <form action="/filter" method="POST" class="filter-form">
+                <form action="/filtrar" method="POST" class="filter-form">
                     <div class="filter-item">
                         <label for="filter-date" class="filter-label">Inicio: </label>
                         <input type="date" id="filter-date-start" name="data-inicio" class="filter-date-input" required>

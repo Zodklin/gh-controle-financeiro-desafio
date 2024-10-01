@@ -12,7 +12,7 @@ class Expense
     }
 
 
-    public function listar()
+    private function listar()
     {
     $mesAtual = date('m'); //passo o mes atual pra variavel
     $anoAtual = date('Y'); // passo o ano atual pra variavel
@@ -25,11 +25,10 @@ class Expense
 
     return $transacoes; //retorno o array
     }
-    
-    
 
     public function criar() 
     {
+        $categorias = $this->getCategoria();
         require '../View/formulario.php'; //chamo o formulario
     }
 
@@ -44,7 +43,8 @@ class Expense
         $statement->bindValue(4, $dados['data']);
         $statement->bindValue(5, $dados['categoria']);
         $statement->execute(); //executo o insert
-        header('Location: /home'); //volto pra home page
+        
+        header('Location: /dashboard'); //volto pra dashboard page
     }
 
     public function editar()
@@ -54,6 +54,7 @@ class Expense
         $statement = $this->conexao->query($select); //executo a query
         $transacao = $statement->fetchAll(\PDO::FETCH_ASSOC); //passo o resultado pra um array associativo
         $transacaoSelecionada = $transacao[0]; //passo a transação na posição 0 (pois só tem ela) para variavel pra ser exibida
+        $categorias = $this->getCategoria();
         require '../View/formulario.php'; //exibo o formulario 
     }
     
@@ -71,7 +72,7 @@ class Expense
         $statement->bindValue(6, $id); //uso esse pra passar o valor do id no where
         $statement->execute(); //executo 
 
-        header('Location: /home');
+        header('Location: /dashboard');
     }
 
     public function deletar()
@@ -81,10 +82,10 @@ class Expense
         $statement = $this->conexao->prepare($delete); //preparo o delete
         $statement->bindValue(1, $id); //bindo o valor do id que irei deletar
         $statement->execute(); //executo o delete
-        header('Location: /home'); //volto pra home page 
+        header('Location: /dashboard'); //volto pra dashboard page 
     }
 
-    public function getReceita()
+    private function getReceita()
     { //mesma situacao da função list linha 15, pego apenas a receita do mes/ano atual
         $mesAtual = date('m'); 
         $anoAtual = date('Y');
@@ -100,7 +101,7 @@ class Expense
         return $receita;
     }
 
-    public function getDespesa()
+    private function getDespesa()
     { //mesma situacao da função list linha 15, pego apenas a despesa do mes/ano atual
         $mesAtual = date('m');
         $anoAtual = date('Y');
@@ -117,7 +118,7 @@ class Expense
     }
 
 
-    public function getSaldo()
+    private function getSaldo()
     { //faço a subtração da receita com a despesa pra resultar no saldo 
         $saldo = $this->getReceita() - $this->getDespesa();
     return $saldo;
@@ -134,7 +135,7 @@ class Expense
         require '../View/home.php'; 
     }
 
-    public function filtrar()
+    public function filtrar() //Acho que essa função ficou mt grande... 
     {
         $filtro = $_POST; //pego os dados do filtro no post
         if($filtro != NULL){ //faço uma validação pra rodar a consulta 
@@ -145,16 +146,19 @@ class Expense
             $statement->bindValue(3, $filtro['categoria']);
             $statement->execute(); // executo a query que fiz, pegando a data inicial e final e a categoria, e pesquisando essas datas no banco pra trazer o periodo
             $filtrados = $statement->fetchAll(\PDO::FETCH_ASSOC); //passo a consulta pra um array associativo e exibo no front iterando sobre o array com um foreach
+            
             $receita = "SELECT sum(valor) FROM transacoes WHERE tipo = 'Receita' AND data_transacao between ? AND ?";
             $statement = $this->conexao->prepare($receita);
             $statement->bindValue(1, $filtro['data-inicio']);
             $statement->bindValue(2, $filtro['data-fim']);
             // $statement->bindValue(3, $filtro['categoria']);
             $statement->execute(); //mesma coisa porem pra trazer a soma da receita
+
             $filterReceita = $statement->fetchColumn();
             if($filterReceita == NULL){
                 $filterReceita = 0;
             }
+
             $despesa = "SELECT sum(valor) FROM transacoes WHERE tipo = 'Despesa' AND data_transacao between ? AND ? AND  categoria_id = ?";
             $statement = $this->conexao->prepare($despesa);
             $statement->bindValue(1, $filtro['data-inicio']);
@@ -162,9 +166,11 @@ class Expense
             $statement->bindValue(3, $filtro['categoria']);
             $statement->execute(); //mesma coisa porem pra trazer a soma da despesa
             $filterDespesa = $statement->fetchColumn();
+
             if($filterDespesa == NULL){
                 $filterDespesa = 0;
             }
+
             $diferenca = $filterReceita - $filterDespesa; //calculo de diferença da receita do periodo pela despesa
             require '../View/filtrar.php';
         } else {
