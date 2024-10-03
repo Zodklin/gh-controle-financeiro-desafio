@@ -20,20 +20,24 @@
         <main class="content-categorias">
             <div class="container-categorias">
                 <div class="lista-categorias">
-                <h1>Manutenção de categorias</h1>
-                <?php foreach($categorias as $categoria): ?>
-                    <div class="item-categoria">
-                        <span style="text-shadow: 0px 0px 5px #000000;"><?= $categoria['nome_categoria'] ?></span>
-                        <div class="deleteUpdate-categoria">
-                            <a href="/deletarCat?id=<?= $categoria['id_categoria'] ?>" 
-                            onclick="return confirm('Ao deletar a categoria, será deletado todas as transações atreladas a ela. Tem certeza que deseja continuar?')">
-                            <i class="fa-solid fa-trash" style="color: white; text-shadow: 0px 0px 5px #000000;"></i>
-                            </a>
-                            <a href="/editarCat?id=<?= $categoria['id_categoria'] ?>"><i class="fa-solid fa-pen-to-square"  style="color: white; text-shadow: 0px 0px 5px #000000;"></i></a>
+                    <h1>Manutenção de categorias</h1>
+                    <?php foreach($categorias as $categoria): ?>
+                        <div class="item-categoria">
+                            <span style="text-shadow: 0px 0px 5px #000000;"><?= $categoria['nome_categoria'] ?></span>
+                            <div class="deleteUpdate-categoria">
+                                <a href="/deletarCat?id=<?= $categoria['id_categoria'] ?>" 
+                                onclick="return confirm('Ao deletar a categoria, será deletado todas as transações atreladas a ela. Tem certeza que deseja continuar?')">
+                                <i class="fa-solid fa-trash" style="color: white; text-shadow: 0px 0px 5px #000000;"></i>
+                                </a>
+                                <a href="/editarCat?id=<?= $categoria['id_categoria'] ?>"><i class="fa-solid fa-pen-to-square"  style="color: white; text-shadow: 0px 0px 5px #000000;"></i></a>
+                            </div>
                         </div>
-                    </div>
-                <?php endforeach ?>
-            </div>
+                    <?php endforeach ?>
+                </div>
+                <div class="adicionar-categoria">
+                    <a href="/criarCategoria"><button>Adicionar</button></a>
+                </div>
+            </div> 
         </main>
     </div>
 </body>

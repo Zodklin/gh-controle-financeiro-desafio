@@ -2,13 +2,16 @@
 
 namespace App;
 
+
 class Expense
 {
+    private $Categoria;
     private $conexao;
 
     public function __construct()
     {
         $this->conexao = ConexaoBD::createConnection(); //faz a conexão com o banco
+        $this->Categoria = new Categorias(); //Faz conexão com a classe de categorias
     }
 
 
@@ -28,7 +31,7 @@ class Expense
 
     public function criar() 
     {
-        $categorias = $this->getCategoria();
+        $categorias = $this->Categoria->getCategorias();
         require '../View/formulario.php'; //chamo o formulario
     }
 
@@ -54,7 +57,7 @@ class Expense
         $statement = $this->conexao->query($select); //executo a query
         $transacao = $statement->fetchAll(\PDO::FETCH_ASSOC); //passo o resultado pra um array associativo
         $transacaoSelecionada = $transacao[0]; //passo a transação na posição 0 (pois só tem ela) para variavel pra ser exibida
-        $categorias = $this->getCategoria();
+        $categorias = $this->Categoria->getCategorias();
         require '../View/formulario.php'; //exibo o formulario 
     }
     
@@ -117,14 +120,11 @@ class Expense
         return $despesa;
     }
 
-
     private function getSaldo()
     { //faço a subtração da receita com a despesa pra resultar no saldo 
         $saldo = $this->getReceita() - $this->getDespesa();
     return $saldo;
     }
-
-
 
     public function getTransacoes()
     { //junto todas as transações em uma função e chamo uma vez só 
@@ -151,7 +151,6 @@ class Expense
             $statement = $this->conexao->prepare($receita);
             $statement->bindValue(1, $filtro['data-inicio']);
             $statement->bindValue(2, $filtro['data-fim']);
-            // $statement->bindValue(3, $filtro['categoria']);
             $statement->execute(); //mesma coisa porem pra trazer a soma da receita
 
             $filterReceita = $statement->fetchColumn();
@@ -181,37 +180,6 @@ class Expense
             require '../View/filtrar.php';}
     }
 
-    public function categorias()
-    {
-        $categorias = $this->getCategoria();
-        require '../View/categorias.php';
-    }
-
-    public function getCategoria()
-    {
-        $select = "SELECT * FROM categorias";
-        $statement = $this->conexao->query($select);
-        $categorias = $statement->fetchAll(\PDO::FETCH_ASSOC);
-
-        return $categorias;
-    }
-
-    public function deletarCategoria()
-    {
-        $id = $_GET['id'];
-
-        $deleteTransacoes = "DELETE FROM transacoes WHERE categoria_id = ?";
-        $statementTransacoes = $this->conexao->prepare($deleteTransacoes);
-        $statementTransacoes->bindValue(1, $id);
-        $statementTransacoes->execute();
-
-        $deleteCategoria = "DELETE FROM categorias WHERE id_categoria = ?";
-        $statementCategoria = $this->conexao->prepare($deleteCategoria);
-        $statementCategoria->bindValue(1, $id);
-        $statementCategoria->execute();
-
-        header('Location: /dashboard');
-    }
 
 
 }
