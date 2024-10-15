@@ -539,3 +539,20 @@ button:focus {
     background-color: #0056b3;
 }
 
+.content-header{
+    display: flex;
+    flex-direction: row;
+    width: 90vw;
+    justify-content: space-between;
+    align-items: end;
+}
+
+.content-header i{
+    font-size: 30px;
+    margin-right: 20px;
+    margin-top: 10px;
+}
+
+.content-header i:hover{
+    color: #007bff;
+}

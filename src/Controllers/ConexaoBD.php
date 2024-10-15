@@ -25,19 +25,4 @@ class ConexaoBD
 
         return false;
     }
-
-    // public function executeSelectOnBD(string $query, array $binds)
-    // {
-    //     $conexao = $this->createConnection();
-    //     try {
-    //         $select = $query;
-    //         $statement = $conexao->prepare($select);
-    //         foreach($binds as $index => $bind){
-    //             $statement->bindParam($index, $bind);
-    //         }
-    //     }
-    //     catch (PDOException $e){
-
-    //     }
-    // }
 }

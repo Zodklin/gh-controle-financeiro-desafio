@@ -19,7 +19,11 @@
         </aside>
         <main class="content">
             <div class="content-backgroud">
-                <h1 class="titulo-dashboard">Dashboard</h1>
+                <div class="content-header">
+                    <h1 class="titulo-dashboard">Dashboard</h1><br>
+                    <a href="/logout"><i class="fa-solid fa-right-from-bracket"></i></a>
+                </div>
+                <h2 style="margin-left: 10px;">Olá, <?= $_SESSION['name'];?></h2><br>
                 <div class="content-cards">
                     <div class="card-saldo">
                         <div class="card-info">
