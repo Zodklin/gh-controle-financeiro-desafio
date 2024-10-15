@@ -2,7 +2,7 @@
     "name": "guilherme.costa/controle-despesas",
     "autoload": {
         "psr-4": {
-            "GuilhermeCosta\\ControleDespesas\\": "src/"
+            "App\\": "src/Controllers"
         }
     },
     "authors": [
