@@ -1,5 +1,5 @@
 {
-    "name": "guilherme.costa/controle-despesas",
+    "name": "guilherme/gh-controle-financeiro-desafio",
     "autoload": {
         "psr-4": {
             "App\\": "src/Controllers"
@@ -7,8 +7,7 @@
     },
     "authors": [
         {
-            "name": "Zodklin",
-            "email": "guilherme.scosta2001@gmail.com"
+            "name": "Guilherme"
         }
     ],
     "require": {}

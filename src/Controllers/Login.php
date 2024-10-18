@@ -22,9 +22,11 @@ class Usuario
         if (isset($credenciais['email']) || isset($credenciais['senha'])) {
 
             if(strlen($credenciais['email']) == NULL) {
-                echo "Preencha seu email";
+                $_SESSION['mensagem'] = 'Preencha seu email!';
+                header('Location: /login');;
             } else if(strlen($credenciais['senha']) == NULL){
-                echo "Preencha sua senha";
+                $_SESSION['mensagem'] = 'Preencha sua senha!';
+                header('Location: /login');
             } else {
                 $verificarLogin = "SELECT nome, id_usuario FROM usuario WHERE email = ? AND senha = ?";
                 $statement = $this->conexao->prepare($verificarLogin);
@@ -40,7 +42,8 @@ class Usuario
                     $_SESSION['name'] = $usuario[0]['nome'];
                     header("Location: /dashboard");
                 }else {
-                    echo "Falha ao logar, e-mail ou senha incorretos!";
+                    $_SESSION['mensagem'] = 'Falha ao logar, email ou senha incorretos!';
+                    header('Location: /login');
                 }
             }
         }
@@ -69,7 +72,9 @@ class Usuario
         $usuarioExiste = $statement->fetchColumn();
 
         if($usuarioExiste == $dados['email']){
-            echo "Email já em uso.";
+            $_SESSION['mensagem'] = 'Email já em uso.';
+            header('Location: /login');
+            exit;
         }else {
             $salvar = "INSERT INTO usuario (email, nome, senha) values (?,?,?)";
             $statement = $this->conexao->prepare($salvar);
@@ -77,7 +82,10 @@ class Usuario
             $statement->bindValue(2, $dados['nome']);
             $statement->bindValue(3, $dados['senha']);
             $statement->execute();
-            echo "Usuario criado com sucesso!";
+            
+            $_SESSION['mensagem'] = 'Usuário criado com sucesso!';
+            header('Location: /login');
+            exit;
         }
         
     }

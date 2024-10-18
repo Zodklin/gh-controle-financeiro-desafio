@@ -32,20 +32,34 @@ class Expense
 
     public function criar() 
     {
+        if(isset($_SESSION['name'])){
         $categorias = $this->Categoria->getCategorias();
-        require '../View/formulario.php'; //chamo o formulario
+        $categoriasPadrao = $this->Categoria->getCategoriasPadrao();
+        require '../View/formulario.php';//chamo o formulario
+        } else {
+            die(header("Location: /login"));
+        }
     }
 
     public function salvar()
     {
         $dados = $_POST; //pego os dados que vieram no post do formulario
-        $insert = "INSERT INTO transacoes (tipo, descricao, valor, data_transacao, categoria_id, usuario_id) VALUES (?,?,?,?,?,?)"; //faço a query do insert, sem passar values pois irei bindar depois do prepare
-        $statement = $this->conexao->prepare($insert); //preparo a exec
+        
+        // Verifica se a categoria é padrão ou do usuário
+        if ($dados['categoria_padrao']) {
+            $insert = "INSERT INTO transacoes (tipo, descricao, valor, data_transacao, categoria_padrao_id, usuario_id) VALUES (?,?,?,?,?,?)";
+            $statement = $this->conexao->prepare($insert);
+            $statement->bindValue(5, $dados['categoria_padrao']);
+        } else {
+            $insert = "INSERT INTO transacoes (tipo, descricao, valor, data_transacao, categoria_id, usuario_id) VALUES (?,?,?,?,?,?)";
+            $statement = $this->conexao->prepare($insert);
+            $statement->bindValue(5, $dados['categoria']);
+        }
+    
         $statement->bindValue(1, $dados['tipo']); //bindo os valores
         $statement->bindValue(2, $dados['descricao']);
         $statement->bindValue(3, $dados['valor']);
         $statement->bindValue(4, $dados['data']);
-        $statement->bindValue(5, $dados['categoria']);
         $statement->bindValue(6, $_SESSION['user']);
         $statement->execute(); //executo o insert
         
@@ -54,15 +68,21 @@ class Expense
 
     public function editar()
     {
-        $id = $_GET['id']; //pego o id da url do item atual
-        $user = $_SESSION['user'];
-        $select = "SELECT id_transacao, tipo, descricao, valor, data_transacao, categoria_id FROM transacoes WHERE id_transacao = $id AND usuario_id = $user"; //faço o select do item atual passando o id 
-        $statement = $this->conexao->query($select); //executo a query
-        $transacao = $statement->fetchAll(\PDO::FETCH_ASSOC); //passo o resultado pra um array associativo
-        $transacaoSelecionada = $transacao[0]; //passo a transação na posição 0 (pois só tem ela) para variavel pra ser exibida
-        $categorias = $this->Categoria->getCategorias();
+        if(isset($_SESSION['name'])){
+            $id = $_GET['id']; //pego o id da url do item atual
+            $user = $_SESSION['user'];
+            $select = "SELECT id_transacao, tipo, descricao, valor, data_transacao, categoria_id FROM transacoes WHERE id_transacao = $id AND usuario_id = $user"; //faço o select do item atual passando o id 
+            $statement = $this->conexao->query($select); //executo a query
+            $transacao = $statement->fetchAll(\PDO::FETCH_ASSOC); //passo o resultado pra um array associativo
+            $transacaoSelecionada = $transacao[0]; //passo a transação na posição 0 (pois só tem ela) para variavel pra ser exibida
+            $categorias = $this->Categoria->getCategorias();
+            $categoriasPadrao = $this->Categoria->getCategoriasPadrao();
+    
+            require '../View/formulario.php'; //exibo o formulario 
+        } else {
+            die(header("Location: /login"));
+        }
 
-        require '../View/formulario.php'; //exibo o formulario 
     }
     
     public function atualizar()
@@ -77,7 +97,7 @@ class Expense
         $statement->bindValue(4, $dados['data']);
         $statement->bindValue(5, $dados['categoria']);
         $statement->bindValue(6, $id); //uso esse pra passar o valor do id no where
-        $statement->bindValue(7, $$_SESSION['user']);
+        $statement->bindValue(7, $_SESSION['user']);
         $statement->execute(); //executo 
 
         header('Location: /dashboard');
@@ -151,6 +171,10 @@ class Expense
 
     public function filtrar() //Acho que essa função ficou mt grande... 
     {
+        
+        if(isset($_SESSION['name'])){
+            $categorias = $this->Categoria->getCategorias();
+        $categoriasPadrao = $this->Categoria->getCategoriasPadrao();
         $filtro = $_POST; //pego os dados do filtro no post
         if($filtro != NULL){ //faço uma validação pra rodar a consulta 
             $select = "SELECT t.id_transacao AS id_transacao, t.tipo AS tipo, t.descricao AS descricao, t.valor AS valor, DATE_FORMAT(data_transacao, '%d/%m/%Y') AS data_transacao, c.nome_categoria AS categoria_id FROM transacoes t INNER JOIN categorias c ON c.id_categoria = t.categoria_id WHERE data_transacao BETWEEN ? AND ? AND categoria_id = ? and t.usuario_id = ?";
@@ -194,8 +218,9 @@ class Expense
             $filterReceita = 0;
             $filtrados = [];
             require '../View/filtrar.php';}
+        }else {
+            die(header("Location: /login"));
+        }
     }
-
-
-
+        
 }

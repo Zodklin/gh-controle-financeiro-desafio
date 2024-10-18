@@ -83,15 +83,14 @@ switch ($page)
             $rotasCategorias->atualizarCategoria();
             break;
 
-            case "/criarCategoria";
-                $rotasCategorias->criarCategoria();
-                break;
+        case "/criarCategoria";
+            $rotasCategorias->criarCategoria();
+            break;
 
         case "/adicionarCategoria";
                 $rotasCategorias->adicionarCategoria();
                 break;
 
-        default:
-            echo "Página não encontrada";
+        default: $user->login();
     }
 ?>
