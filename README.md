@@ -1,6 +1,3 @@
-
-Claro! Aqui está o README sem os blocos de código formatados:
-
 Sistema de Controle Financeiro
 Este é um sistema de controle financeiro desenvolvido em PHP e MySQL. O projeto permite gerenciar transações, categorias, calcular receitas, despesas e saldo.
 
