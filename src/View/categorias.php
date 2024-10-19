@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="stylesheet" href="./css/style.css">
+    <link rel="shortcut icon" href="assets/img/icon.png" type="image/x-icon">
     <title>Categorias</title>
 </head>
 <body>
@@ -37,7 +38,14 @@
         <main class="content-categorias">
             <div class="container-categorias">
                 <div class="lista-categorias">
-                    <h1>Manutencao de categorias</h1><br><br>
+                    <h1>Manutencao de categorias</h1>
+                    <?php 
+                    if (isset($_SESSION['msgErro'])) {
+                        echo '<p style="color: red ;">' . $_SESSION['msgErro'] . '</p>';
+                        unset($_SESSION['msgErro']);
+                    }
+                    ?>
+                    <br><br>
                     <h3>Categorias Padrao</h3><br><br>
                     <?php foreach($categoriasPadrao as $categoriaPadrao): ?>
                         <div class="item-categoria">

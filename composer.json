@@ -2,7 +2,8 @@
     "name": "guilherme/gh-controle-financeiro-desafio",
     "autoload": {
         "psr-4": {
-            "App\\": "src/Controllers"
+            "App\\": "src/"
+
         }
     },
     "authors": [

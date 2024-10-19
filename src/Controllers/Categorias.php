@@ -1,6 +1,9 @@
 <?php 
 
-namespace App;
+namespace App\Controllers;
+
+use App\Model\ConexaoBD;
+use PDOException;
 
 class Categorias
 {
@@ -33,13 +36,19 @@ class Categorias
 
         public function listarCategorias()
     {
-        if(isset($_SESSION['name'])){
-        $categorias = $this->getCategorias();
-        $categoriasPadrao = $this->getCategoriasPadrao();
-        require '../View/categorias.php';
-        } else {
-            die(header("Location: /login"));
+        try{
+            if(isset($_SESSION['name'])){
+                $categorias = $this->getCategorias();
+                $categoriasPadrao = $this->getCategoriasPadrao();
+                require '../View/categorias.php';
+            } else {
+                die(header("Location: /login"));
+            }
+        } catch(PDOException $e){
+            $_SESSION['msgErro'] = "Ocorreu um erro ao listar as categorias: " . $e->getMessage();
+            header('Location: /dashboard');
         }
+
     }
 
     public function criarCategoria()
@@ -54,36 +63,47 @@ class Categorias
 
     public function adicionarCategoria()
     {
-        $nomeCategoria = $_POST['editar-categoria'];
-        $idUser = $_SESSION['user'];
-
-        $adicionarCategoria = "INSERT INTO categorias (nome_Categoria, usuario_id)  VALUES (?,?)";
-        $statement = $this->conexao->prepare($adicionarCategoria);
-        $statement->bindValue(1, $nomeCategoria);
-        $statement->bindValue(2, $idUser);
-        $statement->execute();
-
-        header('Location: /categorias');
+        try{
+            $nomeCategoria = $_POST['editar-categoria'];
+            $idUser = $_SESSION['user'];
+    
+            $adicionarCategoria = "INSERT INTO categorias (nome_Categoria, usuario_id)  VALUES (?,?)";
+            $statement = $this->conexao->prepare($adicionarCategoria);
+            $statement->bindValue(1, $nomeCategoria);
+            $statement->bindValue(2, $idUser);
+            $statement->execute();
+    
+            header('Location: /categorias');
+        } catch (PDOException $e){
+            $_SESSION['msgErro'] = "Ocorreu um erro ao adicionar uma nova categoria: " . $e->getMessage();
+            header('Location: /categorias');
+        }
     }
 
     public function deletarCategoria()
     {
-        $id = $_GET['id'];
-        $idUser = $_SESSION['user'];
+        try{
+            $id = $_GET['id'];
+            $idUser = $_SESSION['user'];
+    
+            $deleteTransacoes = "DELETE FROM transacoes WHERE categoria_id = ? AND usuario_id = ?";
+            $statement = $this->conexao->prepare($deleteTransacoes);
+            $statement->bindValue(1, $id);
+            $statement->bindValue(2, $idUser);
+            $statement->execute();
+    
+            $deleteCategoria = "DELETE FROM categorias WHERE id_categoria = ? AND usuario_id = ?";
+            $statement = $this->conexao->prepare($deleteCategoria);
+            $statement->bindValue(1, $id);
+            $statement->bindValue(2, $idUser);
+            $statement->execute();
+    
+            header('Location: /categorias');
+        } catch (PDOException $e){
+            $_SESSION['msgErro'] = "Ocorreu um erro deletar a categoria: " . $e->getMessage();
+            header('Location: /categorias');
+        }
 
-        $deleteTransacoes = "DELETE FROM transacoes WHERE categoria_id = ? AND usuario_id = ?";
-        $statement = $this->conexao->prepare($deleteTransacoes);
-        $statement->bindValue(1, $id);
-        $statement->bindValue(2, $idUser);
-        $statement->execute();
-
-        $deleteCategoria = "DELETE FROM categorias WHERE id_categoria = ? AND usuario_id = ?";
-        $statement = $this->conexao->prepare($deleteCategoria);
-        $statement->bindValue(1, $id);
-        $statement->bindValue(2, $idUser);
-        $statement->execute();
-
-        header('Location: /categorias');
     }
 
     public function getCategoriaById()
@@ -108,18 +128,23 @@ class Categorias
 
     public function atualizarCategoria()
     {
-        $id = $_GET['id'];
-        $nomeCategoria = $_POST['editar-categoria'];
-        $idUser = $_SESSION['user'];
-
-        $updateCategoria = "UPDATE categorias SET nome_categoria = ? WHERE id_categoria = ? and usuario_id = ?";
-        $statement = $this->conexao->prepare($updateCategoria);
-        $statement->bindValue(1, $nomeCategoria);
-        $statement->bindValue(2, $id);
-        $statement->bindValue(3, $idUser);
-        $statement->execute();
-
-        header('Location: /categorias');
+        try{
+            $id = $_GET['id'];
+            $nomeCategoria = $_POST['editar-categoria'];
+            $idUser = $_SESSION['user'];
+    
+            $updateCategoria = "UPDATE categorias SET nome_categoria = ? WHERE id_categoria = ? and usuario_id = ?";
+            $statement = $this->conexao->prepare($updateCategoria);
+            $statement->bindValue(1, $nomeCategoria);
+            $statement->bindValue(2, $id);
+            $statement->bindValue(3, $idUser);
+            $statement->execute();
+    
+            header('Location: /categorias');
+        }catch (PDOException $e){
+            $_SESSION['msgErro'] = "Ocorreu um erro atualizar a categoria: " . $e->getMessage();
+            header('Location: /categorias');
+        }
     }
 
 }

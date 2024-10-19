@@ -1,6 +1,6 @@
 <?php
 
-namespace App;
+namespace App\Model;
 
 use PDO;
 use PDOException;
@@ -45,11 +45,11 @@ class Database
             CREATE TABLE IF NOT EXISTS usuario (
                 id_usuario INT AUTO_INCREMENT PRIMARY KEY,
                 email VARCHAR(255) NOT NULL UNIQUE,
-                senha VARCHAR(16) NOT NULL,
+                senha VARCHAR(32) NOT NULL,
                 nome VARCHAR(255) NOT NULL
             );
 
-            INSERT IGNORE INTO usuario (id_usuario, email, senha, nome) VALUES (0, 'admin', 'admin', 'admin');
+            INSERT IGNORE INTO usuario (email, senha, nome) VALUES ('admin', 'admin', 'admin');
 
             CREATE TABLE IF NOT EXISTS categorias (
                 id_categoria INT AUTO_INCREMENT PRIMARY KEY,
