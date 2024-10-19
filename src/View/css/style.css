@@ -25,34 +25,22 @@ body {
     padding: 15px;
     border-radius: 0px 18px 18px 0px;
     display: flex;
+    justify-content: space-around;
     flex-direction: column;
     align-items: center;
     box-shadow: 11px 11px 8px -4px rgba(0,0,0,0.1);
 }
 
-.sidebar ul{
-    display: flex;
-    flex-direction: column;
-    justify-content: space-around;
-}
-
 #icone{
     width: 80px;
-    animation: levitate 3s ease-in-out infinite;
-    margin-top: 0px;
 }
 
-
-li{
-    display: flex;
-    align-items: center;
-}
 
 .icons{
     display: flex;
     justify-content: space-around;
     flex-direction: column;
-    height: 50vh;
+    height: 100vh;
     align-items: center;
 }
 
@@ -66,6 +54,35 @@ li{
 
 #add:hover{
     transform: scale(1.1);
+    color: #007bff;
+}
+
+#addText{
+    margin-top: 20px;
+}
+
+.icons div{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+
+.icons div p {
+    color: white;
+    margin-top: 10px;
+}
+
+#logout{
+    font-size: 40px;
+    color:#8f8f8f ;
+    transition: 100ms linear;
+    text-shadow: 0px 0px 5px #000000;
+    margin-top: 100px;
+}
+
+#logout:hover{
     color: #007bff;
 }
 
@@ -537,6 +554,7 @@ button:focus {
 
 .adicionar-categoria button:hover{
     background-color: #0056b3;
+    cursor: pointer;
 }
 
 .content-header{
@@ -556,3 +574,80 @@ button:focus {
 .content-header i:hover{
     color: #007bff;
 }
+
+.container-login{
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.container-form-login{
+    width: 50%;
+    height: 50%;
+    border-radius: 8px;
+    background-color: #343a40;
+    box-shadow: -22px 0px 22px -3px rgba(0,0,0,0.1);
+    display: flex;
+}
+
+.form-login{
+    width: 60%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.form-login form{
+    width: 80%;
+}
+
+.form-login p{
+    margin: 10px 0px 10px 0px;
+}
+
+.form-login input{
+    width: 100%;
+    background-color: #3c3f43;
+    height: 30px;
+    border-radius: 5px;
+    box-sizing: border-box;
+    transition: 0.5s;
+    outline: none;
+    border: 3px solid #2f3031;
+    margin-top: 10px
+}
+
+.form-login input:focus{
+    border: 2px solid #007bff;
+}
+
+.form-login button{
+    width: 100%;
+    background-color: #007bff;
+    margin-top: 1rem;
+    height: 30px;
+    border-radius: 8px;
+    border: none;
+    margin-bottom: 10px;
+    transition: 0.3s;
+}
+
+.form-login button:hover{
+    background-color: #0056b3;
+    cursor: pointer;
+}
+
+.img-login{
+    width: 40%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.img-login img{
+    width: 300px;
+}
+
+

@@ -1,14 +1,15 @@
 <?php 
 
-namespace App;
+namespace App\View;
 
-use app\Categorias;
-use app\Usuario;
+use App\Controllers\Usuario;
+use App\Controllers\Expense;
+use App\Controllers\Categorias;
 
-require '../vendor/autoload.php';
-require '../src/Controllers/Expense.php';
-require '../src/Controllers/Categorias.php';
-require '../src/Controllers/Login.php';
+require '../../vendor/autoload.php';
+require '../Controllers/Expense.php';
+require '../Controllers/Categorias.php';
+require '../Controllers/Usuario.php';
 
 $rotasExpense = new Expense();
 $rotasCategorias = new Categorias();
@@ -83,15 +84,14 @@ switch ($page)
             $rotasCategorias->atualizarCategoria();
             break;
 
-            case "/criarCategoria";
-                $rotasCategorias->criarCategoria();
-                break;
+        case "/criarCategoria";
+            $rotasCategorias->criarCategoria();
+            break;
 
         case "/adicionarCategoria";
                 $rotasCategorias->adicionarCategoria();
                 break;
 
-        default:
-            echo "Página não encontrada";
+        default: $user->login();
     }
 ?>
